@@ -1,0 +1,371 @@
+<html>
+    <head>
+        <title>Home Page</title>
+        <script src="./js/vue.js"></script>
+        <style>
+            table, th,td {
+                  border: 1px solid black;
+                }
+            h1{
+                text-align: center;
+            }
+            #DeveloperNameInFooter{
+                text-align: right;
+            }
+            .red{
+                border: 2px solid red;
+                }
+            .green{
+            border:2px solid green;
+            }
+        </style>
+    </head>
+    <body>
+
+        <h1>this is body</h1>
+        <div id="oneWayDataBinding">
+            {{greeting}}
+        </div><hr>
+        <div id="twoWayDataBinding">
+            <p>{{msg}}</p>
+            <input v-model="msg">
+        </div><hr>
+        <div id='v_if_directive'>
+            <h3 v-if="count===0">Count is zero</h3>
+            <h3 v-else-if="count===1">Count is one</h3>
+            <h3 v-else>Count is not zero/one</h3>
+        </div><hr>
+        <div id='v_show_directive'>
+            <h3 v-show="count===13">Count is zero</h3>
+        </div><hr>
+        <div id='difference between v-if vs v-show'>
+            <h1 style="text-align: center;">difference between v-if vs v-show</h1>
+            <table>
+                <tr>
+                    <th>v-if</th>
+                    <th>v-show</th>
+                </tr>
+                <tr style="border: 1px solid black;">
+                    <td>you can not find the component in the DOM if condition does not match in v-if </td>
+                    <td>you can find the component with display none style in the DOM whether condition matches or not in v-show </td>
+                </tr>
+            </table>
+        </div><hr>
+        <div id="v_bind_disabled">
+            <h4>Sign Up</h4>
+            <input v-model="email">
+            <button onclick="alert('sign up')" 
+                    v-bind:disabled="email.length<2">Submit</button>
+        </div><hr>
+        <div id="adding_class_with_condition">
+            <p>adding_class_with_condition</p>
+            <input v-model="email" :class="{red:email.length<2 }" >
+        </div><hr>
+        <div id="adding_class_with_ternary_conditions">
+            <h4>adding_class_with_ternary_conditions</h4>
+            <input v-model="email" 
+                    :class="[email.length<2 ? 'red':'green']"
+            >
+            <br>
+        </div><hr>
+        <div id="v_text_two_way_binding_with_value">
+            <p>v_text_two_way_binding_with_value</p>
+                input value: {{email}}  
+                <br>
+                <input v-model="email">
+        </div><hr>
+        <div id="v_html_two_way_binding_with_html_execution">
+            <p>v_html_two_way_binding_with_html_execution</p>
+            <p v-html="email"></p>
+        </div><hr>
+        <div id="v_once">
+            <p>v_once is to restrict a two way binding data to update as changeds</p>
+            <p>{{email}}</p>
+            <P v-once>{{email}}</P>
+            <input v-model="email">
+        </div><hr>
+        <div id="for_loop">
+            <p>for loop</p>
+            <ul>
+                <li v-for="cat in cats">{{cat}}</li>
+            </ul>
+        </div><hr>
+        <div id="for_loop_with_object_type">
+            <p>for_loop_with_object_type</p>
+            <ul>
+                <li v-for="cat in cats">{{cat.name}} from {{cat.location}}</li>
+            </ul>
+        </div><hr>
+        <div id="v_on_click">
+            <p>v_on_click</p>
+            <input v-model="newCat">
+            <button v-on:click="addKitty">+ ADD</button>
+            <ul>
+                <li v-for="cat in cats">{{cat}}</li>
+            </ul>
+        </div><hr>
+        <div id="v_on_keyup">
+            <p>v_on_keyup</p>
+            <input v-model="newCat"
+            v-on:keyup.enter="addKitty">
+            <button @click="addKitty">+ ADD</button>
+            <ul>
+                <li v-for="cat in cats">{{cat}}</li>
+            </ul>
+        </div><hr>
+        <div id="filters">
+            <p>filters</p>
+            <input v-model="newCat" v-on:keyup.enter="addKitty">
+            <button @click="addKitty">+ ADD</button>
+            <ul>
+                <li v-for="cat in cats">{{cat| capitalize | kittyfy}}</li>
+            </ul>
+        </div><hr>
+        <div id="computed">
+            <p>computed</p>
+            {{kittyfyName}}
+            <br>
+            <input v-model="newCat"
+            v-on:keyup.enter="addKitty"
+            >
+            <button @click="addKitty">
+            + ADD
+            </button>
+            <ul>
+            <li v-for="cat in cats">
+            {{cat.name}}
+            </li>
+            </ul>
+              </div><hr>              
+        <div id="vue_component_template">
+            <p>vue_component_template</p>
+            <cat-list></cat-list>
+        </div><hr>
+
+        <div id="vue_component_template_props">
+            <p>vue_component_template_props</p>
+            <p>in the template, if you want to pass data to component, you can use props</p>
+            <cat2-list :cats="cats"/>
+        </div>
+
+        <br><br><hr>
+    </body>
+    <footer>
+        <h1>this is footer</h1>
+        <br><br><br><br>
+        <p id="DeveloperNameInFooter">&copy;imtiajahammad</p>
+        <hr>
+    </footer>
+    <script>
+        oneWayDataBinding=new Vue({
+            el:'#oneWayDataBinding',
+            data:{
+                greeting:'Hello vue'
+                 }
+        })
+        twoWayDataBinding=new Vue({
+            el:'#twoWayDataBinding',
+            data:{
+                msg:'this is two way data binding!'
+            }
+        })
+        v_if_directive=new Vue({
+            el:'#v_if_directive',
+            data:{
+                count:2
+            }
+        })
+        v_show_directive=new Vue({
+            el:'#v_show_directive',
+            data:{
+                count:1
+            }
+        })
+        v_bind_disabled=new Vue({
+            el:'#v_bind_disabled',
+            data:{
+                email:''
+            }
+        })
+        adding_class_with_condition=new Vue({
+            el:'#adding_class_with_condition',
+            data:{
+                email:'a'
+            }
+        })
+        adding_class_with_ternary_conditions=new Vue({
+            el:'#adding_class_with_ternary_conditions',
+            data:{
+                email:'a'
+            }
+        })
+        v_text_two_way_binding_with_value=new Vue({
+            el:'#v_text_two_way_binding_with_value',
+            data:{
+                email:'Fal dao'
+            }
+        })
+        v_html_two_way_binding_with_html_execution=new Vue({
+            el:'#v_html_two_way_binding_with_html_execution',
+            data:{
+                email:'<h1>this is header from vue script</h1>'
+            }
+        })
+        v_once=new Vue({
+            el:'#v_once',
+            data:{
+                email:'cats@cats.com'
+            }
+        })
+        for_loop=new Vue({
+            el:'#for_loop',
+            data:{
+                cats:[
+                    'kitkat',
+                    'fish',
+                    'basco',
+                    'melothios'
+                ]
+            }
+        })
+        for_loop_with_object_type=new Vue({
+            el:'#for_loop_with_object_type',
+            data:{
+                newCat:'',
+                cats:[
+                    {name:'kitkat',location:'United America'},
+                    {name:'fish',location:'United Kingdom'},
+                    {name:'basco',location:'Germany'},
+                    {name:'melothios',location:'Turki'}
+                ]
+            }
+        })
+        v_on_click=new Vue({
+            el:'#v_on_click',
+            data:{
+                newCat:'',
+                cats:[
+                    'kitkat',
+                    'fish',
+                    'basco',
+                    'melothios'
+                ]
+            },
+            methods:{
+                addKitty: function(){
+                    return this.cats.push(this.newCat)
+                }
+            }
+        })
+        v_on_keyup=new Vue({
+            el:'#v_on_keyup',
+            data:{
+                newCat:'',
+                cats:[
+                    'kitkat',
+                    'fish',
+                    'basco',
+                    'melothios'
+                ]
+            },
+            methods:{
+                addKitty: function(){
+                    return this.cats.push(this.newCat)
+                }
+            }
+        })
+        filters=new Vue({
+            el:'#filters',
+            data:{
+                newCat:'',
+                cats:[
+                    'kitkat',
+                    'fish',
+                    'basco',
+                    'melothios'
+                    ]
+                },
+            methods:{
+                addKitty: function(){
+                    this.cats.push(this.newCat)
+                    this.newCat=''
+                }
+            },
+            filters:{
+                capitalize: function(value){
+                    return value.toUpperCase()
+                },
+                kittyfy: function(value){
+                    return value+'y'
+                }
+            }
+        })
+        computed=new Vue({
+            el: '#computed',
+            data: {
+            cats: [
+                {name: 'kitkat'},
+                {name: 'fish'},
+                {name: 'basco'},
+                {name: 'melothios'}
+                ],
+            newCat: ''
+                    },
+            methods: {
+                    addKitty: function() {
+                                this.cats.push({
+                                name: this.newCat
+                                            })
+                                this.newCat = ''
+                                        }
+                    },
+            computed:{
+                        kittyfyName: function(){
+                                        if(this.newCat.length>1){
+                                        return this.newCat+'y'
+                                                                }    
+                                               }
+                    }
+                        })
+        
+        vue_component_template=Vue.component('cat-list' , {
+	            template: 
+                        `<ul>
+                        <li>cat1</li>
+                        <li>cat2</li>
+                        <li>cat3</li>
+                        <li>cat4</li>
+                        <li>cat5</li>
+                        <li>cat6</li>
+                        <li>cat7</li>
+                        </ul>`
+                            }
+                )
+        vue_component_template=new Vue({
+            el:'#vue_component_template',
+            component:['cat-list']
+        })
+
+        Vue.component('cat2-list' , {
+                props:['cats'],
+                template:
+            `<ul>
+            <li v-for="cat in cats">{{cat}}</li>
+            </ul>`
+            })
+
+            vue_component_template_props=new Vue({
+            el:'#vue_component_template_props',
+            data:{
+                cats:[
+                    'cats1',
+                    'cats2',
+                    'cats3',
+                    'cats4'
+                ]
+            },
+            component:['cat2-list']
+        })
+
+    </script>
+</html>
